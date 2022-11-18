@@ -2,13 +2,21 @@
   "name": "se-highlight-be",
   "version": "1.0.0",
   "description": "Project in Software Engineering",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "nodemon ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "chokidar": "^3.5.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "nunjucks": "^3.2.3",
+    "sequelize": "^6.13.0",
+    "sequelize-cli": "^6.5.2"
   }
 }
