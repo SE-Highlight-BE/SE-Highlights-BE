@@ -1,11 +1,15 @@
 const Sequelize = require('sequelize'); 
+const User = require('./user');
 
-const env = process.env.NODE_ENV || 'development'; 
-const config = require('../config/config')[env]; 
+const env = process.env.NODE_ENV || 'database'; 
+const config = require('../config/config'); 
 const db = {};
 
-const sequelize = new Sequelize(config.database, config.username, config.password, config); // new Sequelize를 통해 MySQL 연결 객체 생성
+const sequelize = new Sequelize(
+    config.database, config.username, config.password, config
+    );
 
 db.sequelize = sequelize;
 
 module.exports = db; 
+db.User = User;

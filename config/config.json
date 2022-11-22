@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "root",
-    "password": "qlalfqjsgh486*",
-    "database": "SE_Highlightsfilm_Service",
-    "host": "localhost",
-    "dialect": "mysql"
-  }
-}
