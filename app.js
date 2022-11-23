@@ -42,7 +42,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use("/sign", signRoute);
+app.use("/auth", signRoute);
 
 app.listen(app.get('port'), () =>{
     console.log(app.get('port'), '번 포트에서 대기 중');

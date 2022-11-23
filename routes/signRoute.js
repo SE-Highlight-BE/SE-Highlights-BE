@@ -4,9 +4,12 @@ const { body, check } = require("express-validator");
 const signController = require("../controller/signController");
 
 const router = express.Router();
+const auth = require("../middleware/auth")
+
+router.get("/signIn", signController.signin);
 
 router.post(
-  "/signup",
+  "/signUp",
   [
     body("userName"),
     body("userNickName"),
