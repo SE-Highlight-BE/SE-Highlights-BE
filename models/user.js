@@ -1,31 +1,39 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const db = require('../config/config')[process.env];
+const Sequelize = require('sequelize');
 
-module.exports = (sequelize, Sequelize) => {
-  const user = sequelize.define( "user",
-    {
-      userID: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true,
-      },
-      userName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      userNickName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      userPwd: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    },
-    {
-      charset: "utf8",
-      collate: "utf8_general_ci",
-    }
-  );
+module.exports = class User extends Sequelize.Model {
+  static init(sequelize) {
+    return super.init(
+      {
+        userID: {
+          type: Sequelize.INTEGER,
+          autoIncrement: true,
+          allowNull: false,
+          primaryKey: true,
+        },
+        userName: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        userNickName: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        userPwd: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+      }, {
+        sequelize,
+        timestamps: false,
+        underscored: false,
+        modelName: 'User',
+        tableName: 'user',
+        paranoid: false,
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
+      });
+  }
+  // static associations(db) {
+  //   db.User.hasMany(db.Comment, { foreignKey: 'userID', sourceKey: 'userID' });
+  // }
 };
