@@ -2,30 +2,25 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 module.exports = async (req, res, next) => {
+
     try{
-        const header = req.get("Authorization");
-        if(!header) {
-            const error = new Error("로그인이 필요합니다.");
-            error.statusCode = 401;
-            next(error);
+        const clientToken = req.cookies.userName;
+        if (!clientToken){
+            res.status(404).json({ error : '로그인이 필요합니다.'});
         }
-        const token = req.get("Authorization").split(" ")[1];
-        let decodedToken;
-        if (!token){
-            const error = new Error("로그인이 필요합니다.");
-            error.statusCode = 401;
-            next(error);
+
+        const decoded = jwt.verify(clientToken, process.env.JWT_TOKEN);
+
+        if (decoded) {
+            res.locals.userName = decoded.userName;
+            next();
         }
-        decodedToken = jwt.verify(token, process.env.JWT_TOKEN);
-        if(!decodedToken){
-            const error = new Error(`유효하지 않은 token: ${token}`);
-            error.statusCode = 401;
-            next(error);
+        else {
+            res.status(401).json({ error : '로그인이 필요합니다.'});
         }
-        req.id = decodedToken.id;
-        next();
+
     } catch (err){
-        error.statusCode = 500;
+        res.status(401).json({ error : '로그인이 필요합니다. (로그인 기한 만료)'});
         next(err);
     }
 };

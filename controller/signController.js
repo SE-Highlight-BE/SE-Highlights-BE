@@ -80,6 +80,8 @@ exports.signin = async (req, res, next) => {
           expiresIn: '3h'
         }
     );
+
+    res.cookie('userName', token)
     res
       .status(200)
       .json({ msg: "로그인 성공", token: token })
@@ -87,8 +89,3 @@ exports.signin = async (req, res, next) => {
     next(err);
   }
 };
-
-// exports.check = async (req, res) => {
-//   const { userName } = req.body;
-//   res.status(201).json({ msg: `${userName} 로그인 확인 완료` });
-// };

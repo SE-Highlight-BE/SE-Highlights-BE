@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const morgan = require('morgan');
 const nunjucks = require('nunjucks');
@@ -7,9 +8,10 @@ const cors = require('cors');
 require("dotenv").config();
 
 
-const { sequelize, User } = require('./models'); 
+const { sequelize, User, Comment } = require('./models'); 
 
 const signRoute = require('./routes/signRoute');
+const commentRoute = require('./routes/commentRoute');
 
 const app = express();
 app.set('port', process.env.PORT || 3001);
@@ -42,7 +44,9 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use("/auth", signRoute);
+app.use("/reply", commentRoute);
 
 app.listen(app.get('port'), () =>{
     console.log(app.get('port'), '번 포트에서 대기 중');
