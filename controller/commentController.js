@@ -1,12 +1,21 @@
 const User = require('../models/user');
 const Comment = require('../models/comment');
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.addComment = async (req, res, next) => {
     try{
+        const clientToken = req.cookies.userID;
+        const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
-        const { userID, comment } = req.body;
+        console.log(decodedID.userID);
+
+        const userID = decodedID.userID;
+        const comment = req.body.comment;
+        const videoID = req.params.videoID;
         const comments = await Comment.create({
             userID: userID,
+            videoID: videoID,
             comment: comment,
         });
         console.log(comments);
@@ -19,8 +28,11 @@ exports.addComment = async (req, res, next) => {
 
 exports.deleteComment = async (req, res, next) => {
     try{
+        const clientToken = req.cookies.userID;
+        const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
+
         const commentID = req.params.id;
-        const userID = req.body.userID;
+        const userID = decodedID.userID;
         const authorID = await Comment.findOne({
             attributes: ['userID'],
             where:{
@@ -47,9 +59,12 @@ exports.deleteComment = async (req, res, next) => {
     }
 };
 
-exports.getComment = async (req, res, next) => {
+exports.getUserComment = async (req, res, next) => {
     try{
-        const comments = await Comment.findAll({ where: { userID: req.params.userID }});
+        const clientToken = req.cookies.userID;
+        const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
+
+        const comments = await Comment.findAll({ where: { userID: decodedID.userID }});
         console.log(comments);
         res.json({ comments });
     } catch (err){
@@ -57,3 +72,15 @@ exports.getComment = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.getVideoComment = async (req, res, next) => {
+    try{
+        const comments = await Comment.findAll({ where: { videoID: req.params.videoID }});
+        console.log(comments);
+        res.json({ comments });
+    } catch (err){
+        console.error(err);
+        next(err);
+    }
+};
+

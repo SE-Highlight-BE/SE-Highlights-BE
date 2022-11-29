@@ -4,7 +4,7 @@ require("dotenv").config();
 module.exports = async (req, res, next) => {
 
     try{
-        const clientToken = req.cookies.userName;
+        const clientToken = req.cookies.userID;
         if (!clientToken){
             res.status(404).json({ error : '로그인이 필요합니다.'});
         }
@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
         const decoded = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
         if (decoded) {
-            res.locals.userName = decoded.userName;
+            res.locals.userID = decoded.userID;
             next();
         }
         else {

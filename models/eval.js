@@ -1,26 +1,19 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Comment extends Sequelize.Model{
+module.exports = class Eval extends Sequelize.Model{
     static init(sequelize){
         return super.init({
-            comment: {
-                type: Sequelize.STRING,
+            evalID: {
+                type: Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
                 allowNull: true
-            },
-            likeComment: {
-                type: Boolean,
-                allowNull: true
-            },
-            created_at: {
-                type: Sequelize.DATE,
-                allowNull: true,
-                defaultValue: Sequelize.NOW
-            },
+            }
         },{
             sequelize,
             timestamps: false,
-            modelName:'Comment',
-            tableName: 'comment',
+            modelName:'Eval',
+            tableName: 'eval',
             paranoid: false,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci'

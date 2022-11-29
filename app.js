@@ -8,10 +8,11 @@ const cors = require('cors');
 require("dotenv").config();
 
 
-const { sequelize, User, Comment } = require('./models'); 
+const { sequelize, User, Video, Comment } = require('./models'); 
 
 const signRoute = require('./routes/signRoute');
 const commentRoute = require('./routes/commentRoute');
+const videoRoute = require('./routes/vidoeRoute');
 
 const app = express();
 app.set('port', process.env.PORT || 3001);
@@ -47,6 +48,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use("/auth", signRoute);
 app.use("/reply", commentRoute);
+app.use("/video", videoRoute);
 
 app.listen(app.get('port'), () =>{
     console.log(app.get('port'), '번 포트에서 대기 중');

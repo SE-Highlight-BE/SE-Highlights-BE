@@ -75,13 +75,13 @@ exports.signin = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { userName: userName },
+      { userID: user.userID },
         process.env.JWT_TOKEN,{
           expiresIn: '3h'
         }
     );
 
-    res.cookie('userName', token)
+    res.cookie('userID', token)
     res
       .status(200)
       .json({ msg: "로그인 성공", token: token })
