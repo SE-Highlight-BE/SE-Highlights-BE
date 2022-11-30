@@ -7,7 +7,7 @@ module.exports = class Eval extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
-                allowNull: true
+                allowNull: false
             }
         },{
             sequelize,
@@ -20,10 +20,10 @@ module.exports = class Eval extends Sequelize.Model{
         });
     }
     static associate(db){
-        db.Comment.belongsTo(db.User, {foreignKey: 'userID', targetKey: 'userID'});
+        db.Eval.belongsTo(db.User, {foreignKey: 'userID', targetKey: 'userID'});
     }
     static associate(db){
-        db.Comment.belongsTo(db.Video, {foreignKey: 'videoID', targetKey: 'videoID'});
+        db.Eval.belongsTo(db.Video, {foreignKey: 'videoID', targetKey: 'videoID'});
     }
 
 }

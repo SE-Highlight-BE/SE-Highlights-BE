@@ -8,8 +8,6 @@ exports.addComment = async (req, res, next) => {
         const clientToken = req.cookies.userID;
         const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
-        console.log(decodedID.userID);
-
         const userID = decodedID.userID;
         const comment = req.body.comment;
         const videoID = req.params.videoID;

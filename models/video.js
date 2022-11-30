@@ -20,7 +20,7 @@ module.exports = class Video extends Sequelize.Model {
           type: Sequelize.STRING,
         },
         videoRecommendRate: {
-          type: Sequelize.STRING,
+          type: Sequelize.INTEGER,
         },
         videoThumnail: {
           type: Sequelize.STRING,
