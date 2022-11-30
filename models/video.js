@@ -41,5 +41,6 @@ module.exports = class Video extends Sequelize.Model {
   static associate(db) {
     db.Video.hasMany(db.Comment, { foreignKey: 'videoID', sourceKey: 'videoID' });
     db.Video.hasMany(db.Eval, { foreignKey: 'videoID', sourceKey: 'videoID' });
+    db.Video.hasMany(db.Bookmark, { foreignKey: 'videoID', sourceKey: 'videoID' });
   }
 };
