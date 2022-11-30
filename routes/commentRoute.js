@@ -8,7 +8,7 @@ router.post("/:videoID/comment", auth, commentController.addComment);
 
 router.get("/deleteComment/:id", auth, commentController.deleteComment);
 
-router.get("/getUserComment/:userID", auth, commentController.getUserComment);
+router.get("/getUserComment", auth, commentController.getUserComment);
 
 router.get("/getVideoComment/:videoID", commentController.getVideoComment);
 

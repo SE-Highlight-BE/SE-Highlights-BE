@@ -6,7 +6,8 @@ module.exports = async (req, res, next) => {
     try{
         const clientToken = req.cookies.userID;
         if (!clientToken){
-            res.status(404).json({ error : '로그인이 필요합니다.'});
+            const error = new Error("로그인이 필요합니다.")
+            throw error;
         }
 
         const decoded = jwt.verify(clientToken, process.env.JWT_TOKEN);
@@ -16,11 +17,12 @@ module.exports = async (req, res, next) => {
             next();
         }
         else {
-            res.status(401).json({ error : '로그인이 필요합니다.'});
+            const error = new Error("로그인이 필요합니다.")
+            throw error;
         }
 
     } catch (err){
-        res.status(401).json({ error : '로그인이 필요합니다. (로그인 기한 만료)'});
+        res.status(401).json({ error : '로그인이 필요합니다.'});
         next(err);
     }
 };

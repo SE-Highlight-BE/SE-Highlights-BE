@@ -23,6 +23,16 @@ exports.signup = async (req, res, next) => {
     const checkName = await User.findOne({ where: { userName } });
     const checkNickName = await User.findOne({ where: { userNickName } });
 
+    if (userName.length > 15){
+      const error = new Error("ID는 15자 이하여야 합니다.");
+      throw error;
+    }
+
+    if (userPwd.length > 15){
+      const error = new Error("비밀번호는 15자 이하여야 합니다.");
+      throw error;
+    }
+
     if (checkName) {
       const error = new Error(`${userName} 은(는) 중복된 ID 입니다.`);
       error.statusCode = 422;
@@ -36,7 +46,7 @@ exports.signup = async (req, res, next) => {
     }
 
     else if (userPwd!=userPwdCheck){
-        const error = new Error("입력하신 비밀번호가 일치하지 않습니다.");
+        const error = new Error("입력한 비밀번호가 일치하지 않습니다.");
         error.statusCode = 400;
         throw error;
     }
@@ -49,7 +59,7 @@ exports.signup = async (req, res, next) => {
       userPwd: hashPwd,
     });
 
-    res.status(201).json({ id: user.id, msg: "회원가입 완료" });
+    res.status(201).json({ id: user.id, msg: "정상적으로 회원가입이 완료되었습니다." });
   } catch (error) {
     next(error);
   }
@@ -69,7 +79,7 @@ exports.signin = async (req, res, next) => {
     const isPwd = await bcrypt.compare(userPwd, user.userPwd);
 
     if (!isPwd) {
-      const error = new Error("비밀번호가 틀렸습니다.");
+      const error = new Error("비밀번호가 일치하지 않습니다.");
       error.statusCode = 403;
       throw error;
     }
@@ -84,7 +94,44 @@ exports.signin = async (req, res, next) => {
     res.cookie('userID', token)
     res
       .status(200)
-      .json({ msg: "로그인 성공", token: token })
+      .json({ msg: "정상적으로 로그인 되었습니다.", token: token })
+  } catch (err){
+    next(err);
+  }
+};
+
+exports.signout = async (req, res, next) => {
+  try {
+    res.clearCookie('userID')
+      .json({ msg: "정상적으로 로그아웃 되었습니다." });
+  } catch (err){
+    next(err);
+  }
+};
+
+exports.deleteAccount = async (req, res, next) => {
+  try {
+
+    const clientToken = req.cookies.userID;
+    const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
+
+    const userID = decodedID.userID;
+
+    const { userPwd } = req.body;
+    const user = await User.findOne({ where: { userID }});
+    
+    const isPwd = await bcrypt.compare(userPwd, user.userPwd);
+
+    if (!isPwd) {
+      const error = new Error("비밀번호가 일치하지 않습니다.");
+      error.statusCode = 403;
+      throw error;
+    }
+
+    const deleteUser = await User.destroy({where: { userID: userID }});
+    deleteUser;
+    res.json({msg : "정상적으로 탈퇴 되었습니다."});
+    
   } catch (err){
     next(err);
   }
