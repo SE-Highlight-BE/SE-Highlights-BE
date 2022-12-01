@@ -24,31 +24,28 @@ exports.signup = async (req, res, next) => {
     const checkNickName = await User.findOne({ where: { userNickName } });
 
     if (userName.length > 15){
-      const error = new Error("ID는 15자 이하여야 합니다.");
-      throw error;
+      res.json({msg: "ID는 15자 이하여야 합니다."});
+      return;
     }
 
-    if (userPwd.length > 15){
-      const error = new Error("비밀번호는 15자 이하여야 합니다.");
-      throw error;
+    else if (userPwd.length > 15){
+      res.json({msg: "비밀번호는 15자 이하여야 합니다."});
+      return;
     }
 
-    if (checkName) {
-      const error = new Error(`${userName} 은(는) 중복된 ID 입니다.`);
-      error.statusCode = 422;
-      throw error;
+    else if (checkName) {
+      res.json({msg: `${userName} 은(는) 중복된 ID 입니다.`});
+      return;
     }
 
     else if (checkNickName) {
-      const error = new Error(`${userNickName} 은(는) 중복된 닉네임 입니다.`);
-      error.statusCode = 422;
-      throw error;
+      res.json({msg: `${userNickName} 은(는) 중복된 닉네임 입니다.`});
+      return;
     }
 
     else if (userPwd!=userPwdCheck){
-        const error = new Error("입력한 비밀번호가 일치하지 않습니다.");
-        error.statusCode = 400;
-        throw error;
+      res.json({ error :"입력한 비밀번호가 일치하지 않습니다."});
+      return;
     }
 
     const hashPwd = await bcrypt.hash(userPwd, 12);
@@ -71,17 +68,13 @@ exports.signin = async (req, res, next) => {
     const user = await User.findOne({ where: { userName }});
     
     if (!user) {
-      const error = new Error("등록되지 않은 사용자 입니다.");
-      error.statusCode = 403;
-      throw error;
+      res.json({ error :"등록되지 않은 사용자 입니다."});
     }
 
     const isPwd = await bcrypt.compare(userPwd, user.userPwd);
 
     if (!isPwd) {
-      const error = new Error("비밀번호가 일치하지 않습니다.");
-      error.statusCode = 403;
-      throw error;
+      res.json({ error :"비밀번호가 일치하지 않습니다."});
     }
 
     const token = jwt.sign(
@@ -123,9 +116,7 @@ exports.deleteAccount = async (req, res, next) => {
     const isPwd = await bcrypt.compare(userPwd, user.userPwd);
 
     if (!isPwd) {
-      const error = new Error("비밀번호가 일치하지 않습니다.");
-      error.statusCode = 403;
-      throw error;
+      res.json({ error :"비밀번호가 일치하지 않습니다."})
     }
 
     const deleteUser = await User.destroy({where: { userID: userID }});

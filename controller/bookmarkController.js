@@ -1,5 +1,6 @@
 const Bookmark = require('../models/bookmark');
 const Video = require('../models/video');
+const User = require('../models/user');
 const jwt = require("jsonwebtoken");
 const { sequelize } = require('../models');
 require("dotenv").config();
@@ -25,7 +26,7 @@ exports.bookmarkVideo = async (req, res, next) => {
             res.status(201).json({ msg: "북마크가 해제되었습니다." });
         }
 
-        if(!checkBookmark){
+        else{
             
             const bookmark = await Bookmark.create({
                 userID: userID,
@@ -46,6 +47,10 @@ exports.getBookmark = async (req, res, next) => {
         const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
         const userID = decodedID.userID;
+        const userName = await User.findOne({
+            attributes: ['userName'],
+            where: {userID: userID}
+        })
 
         const getBookmark = await Bookmark.findAll({ 
             attributes: ['videoID'],
@@ -57,7 +62,7 @@ exports.getBookmark = async (req, res, next) => {
         }
 
         else{
-            res.json({getBookmark})
+            res.send({getBookmark, userName});
         }
 
     } catch (err) {
