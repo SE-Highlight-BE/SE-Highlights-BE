@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 
 const bookmarkController = require("../controller/bookmarkController");
 const router = express.Router();
