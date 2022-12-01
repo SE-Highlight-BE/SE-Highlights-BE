@@ -54,7 +54,7 @@ app.use(morgan("dev"));
 app.use(
   cors({
     origin: true,
-    credentials: true
+    credentials: true,
   })
 );
 app.use(express.static(path.join(__dirname, "public")));

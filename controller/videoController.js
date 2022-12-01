@@ -45,7 +45,33 @@ exports.findAll = (req, res) => {
       });
     });
 };
-
+exports.findSome = (req, res) => {
+  // fs
+  Video.findAll()
+    .then((data) => {
+      let newData = [];
+      if (data.length >= req.query.num) {
+        let randomVideo;
+        for (let i = 0; i < req.query.num; i++) {
+          randomVideo = data.splice(
+            Math.floor(Math.random() * data.length),
+            1
+          )[0];
+          newData.push(randomVideo);
+        }
+        res.send(newData);
+      } else
+        res.send({
+          data: data,
+          message: "보유한 동영상보다 요청하는 동영상 개수가 더 많음.",
+        });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "video 전체 검색 실패.",
+      });
+    });
+};
 // 타이틀로 비디오 검색
 exports.findAllTitle = (req, res) => {
   // fs
