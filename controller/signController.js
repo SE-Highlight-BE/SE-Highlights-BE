@@ -70,7 +70,7 @@ exports.signin = async (req, res, next) => {
     }
 
     const token = jwt.sign({ userID: user.userID }, process.env.JWT_TOKEN, {
-      expiresIn: "3h",
+      expiresIn: "1000h",
     });
 
     res.cookie("userID", token);
