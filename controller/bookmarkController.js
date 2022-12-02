@@ -7,10 +7,10 @@ require("dotenv").config();
 
 exports.bookmarkVideo = async (req, res, next) => {
   try {
-    const clientToken = req.cookies.userID;
-    const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
+    // const clientToken = req.cookies.userID;
+    // const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
-    const userID = decodedID.userID;
+    const userID = req.decoded;
     const videoID = req.params.videoID;
 
     const checkBookmark = await Bookmark.findOne({
@@ -40,10 +40,10 @@ exports.bookmarkVideo = async (req, res, next) => {
 
 exports.getBookmark = async (req, res, next) => {
   try {
-    const clientToken = req.cookies.userID;
-    const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
+    // const clientToken = req.cookies.userID;
+    // const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
-    const userID = decodedID.userID;
+    const userID = req.decoded;
     const userName = await User.findOne({
       attributes: ["userName"],
       where: { userID: userID },

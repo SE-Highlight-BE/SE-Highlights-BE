@@ -25,10 +25,10 @@ exports.addComment = async (req, res, next) => {
 
 exports.deleteComment = async (req, res, next) => {
   try {
-    const clientToken = req.cookies.userID;
-    const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
+    // const clientToken = req.cookies.userID;
+    // const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
-    const commentID = req.params.id;
+    const commentID = req.decoded;
     const userID = decodedID.userID;
     const authorID = await Comment.findOne({
       attributes: ["userID"],
@@ -53,11 +53,11 @@ exports.deleteComment = async (req, res, next) => {
 
 exports.getUserComment = async (req, res, next) => {
   try {
-    const clientToken = req.cookies.userID;
-    const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
+    // const clientToken = req.cookies.userID;
+    // const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
     const comments = await Comment.findAll({
-      where: { userID: decodedID.userID },
+      where: { userID: req.decoded },
     });
     console.log(comments);
     res.json({ comments });
