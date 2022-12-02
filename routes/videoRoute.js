@@ -2,10 +2,11 @@ const express = require("express");
 
 const videoController = require("../controller/videoController");
 const router = express.Router();
+const auth = require("../middleware/auth");
 
 // router.post("/create", videoController.create);
-router.get("/", videoController.findAll);
-router.get("/search", videoController.findAllTitle);
-router.get("/random", videoController.findSome);
+router.get("/", auth, videoController.findAll);
+router.get("/search", auth, videoController.findAllTitle);
+router.get("/random", auth, videoController.findSome);
 
 module.exports = router;

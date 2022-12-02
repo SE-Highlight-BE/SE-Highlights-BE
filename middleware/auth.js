@@ -2,11 +2,11 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const env = process.env;
 module.exports = async (req, res, next) => {
-  //   console.log("@@@@@@", req.headers);
   try {
-    if (req.headers.authorization) {
-      const token = req.headers.authorization.split("Bearer ")[1];
+    if (req.headers.cookie) {
+      const token = req.headers.cookie.split("=")[1];
       const result = jwt.verify(token, process.env.JWT_KEY); // token을 검증합니다.
+      console.log("@@@@@@", result);
       if (result.userID) {
         req.decoded = result.userID;
         next();
