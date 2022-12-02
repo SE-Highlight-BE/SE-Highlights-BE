@@ -6,10 +6,14 @@ const auth = require("../middleware/auth");
 
 router.post("/comment", auth, commentController.addComment);
 
-router.get("/deleteComment/:id", auth, commentController.deleteComment);
+router.delete("/comment", auth, commentController.deleteComment);
 
 router.get("/getUserComment", auth, commentController.getUserComment);
 
-router.get("/getVideoComment/:videoID", commentController.getVideoComment);
+router.get(
+  "/getVideoComment/:videoID",
+  auth,
+  commentController.getVideoComment
+);
 
 module.exports = router;
