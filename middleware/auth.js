@@ -6,7 +6,6 @@ module.exports = async (req, res, next) => {
     if (req.headers.cookie) {
       const token = req.headers.cookie.split("=")[1];
       const result = jwt.verify(token, process.env.JWT_KEY); // token을 검증합니다.
-      console.log("@@@@@@", result);
       if (result.userID) {
         req.decoded = result.userID;
         next();
