@@ -1,47 +1,34 @@
 const db = require("../models");
-// const sequelize = require("sequelize");
-// const Op = sequelize.Op;
-const Video = db.Video;
+const Schedule = db.Schedule;
 const Op = db.Sequelize.Op;
 
-// exports.create = (req, res) => {
-//   if (!req.body) {
-//     res.status(400).send({
-//       message: "Content can not be empty!",
-//     });
-//     return;
-//   }
-//   const video = {
-//     videoID: req.body.videoID,
-//     videoTitle: req.body.videoTitle,
-//     videoDate: req.body.videoDate,
-//     videoLink: req.body.videoLink,
-//     videoRecommendRate: req.body.videoRecommendRate,
-//     videoThumnail: req.body.videoThumnail,
-//   };
-
-//   Video.create(video)
-//     .then((data) => {
-//       res.send(data);
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while creating the Tutorial.",
-//       });
-//     });
-// };
-
-// 전체 비디오 검색
 exports.findAll = (req, res) => {
-  // fs
-  Video.findAll()
+  Schedule.findAll()
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "video 전체 검색 실패.",
+        message: err.message,
+      });
+    });
+};
+
+exports.findDate = (req, res) => {
+  // let condition = title ? { videoTitle: { [Op.like]: `%${title}%` } } : null;
+  // Video.findAll({ where: condition })
+  const date = req.params.date;
+  const condition = date ? { scheduleDate: { [Op.like]: `%${date}%` } } : null;
+
+  Schedule.findAll({
+    where: condition,
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message,
       });
     });
 };

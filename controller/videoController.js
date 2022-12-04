@@ -76,6 +76,7 @@ exports.findSome = (req, res) => {
 exports.findAllTitle = (req, res) => {
   // fs
   const title = req.query.videoTitle;
+
   let condition = title ? { videoTitle: { [Op.like]: `%${title}%` } } : null;
   Video.findAll({ where: condition })
     .then((data) => {

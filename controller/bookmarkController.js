@@ -44,8 +44,8 @@ exports.getBookmark = async (req, res, next) => {
     // const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
 
     const userID = req.decoded;
-    const userName = await User.findOne({
-      attributes: ["userName"],
+    const userNickName = await User.findOne({
+      attributes: ["userNickName"],
       where: { userID: userID },
     });
 
@@ -56,9 +56,9 @@ exports.getBookmark = async (req, res, next) => {
     });
 
     if (!getBookmark) {
-      res.json({ msg: "북마크로 저장된 영상이 없습니다." });
+      res.send({ userNickName, msg: "북마크로 저장된 영상이 없습니다." });
     } else {
-      res.send({ getBookmark, userName });
+      res.send({ getBookmark, userNickName });
     }
   } catch (err) {
     console.error(err);
