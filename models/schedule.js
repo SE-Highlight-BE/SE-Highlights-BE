@@ -4,25 +4,22 @@ module.exports = class Schedule extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        videoID: {
+        scheduleID: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
           allowNull: false,
           primaryKey: true,
         },
-        videoTitle: {
+        scheduleTitle: {
           type: Sequelize.STRING,
         },
-        videoDate: {
-          type: Sequelize.DATE,
-        },
-        videoLink: {
+        scheduleDate: {
           type: Sequelize.STRING,
         },
-        videoRecommendRate: {
-          type: Sequelize.INTEGER,
+        scheduleTime: {
+          type: Sequelize.STRING,
         },
-        videoThumnail: {
+        category: {
           type: Sequelize.STRING,
         },
       },
@@ -30,8 +27,8 @@ module.exports = class Schedule extends Sequelize.Model {
         sequelize,
         timestamps: false,
         underscored: false,
-        modelName: "Video",
-        tableName: "video",
+        modelName: "Schedule",
+        tableName: "schedule",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",

@@ -30,11 +30,13 @@ Comment.init(sequelize);
 Video.init(sequelize);
 Eval.init(sequelize);
 Bookmark.init(sequelize);
+Schedule.init(sequelize);
 
 User.associate(db);
 Comment.associate(db);
 Video.associate(db);
 Eval.associate(db);
 Bookmark.associate(db);
+Schedule.associate(db);
 
 module.exports = db;

@@ -87,21 +87,7 @@ exports.getVideoComment = async (req, res, next) => {
         userNickName: user.dataValues.userNickName,
       });
     }
-    //   console.log(user);
-    // }
-    // // comments.forEach((elem) =>
-    //   User.findOne({
-    //     attributes: ["userNickName"],
-    //     where: {
-    //       userID: elem.userID,
-    //     },
-    //   }).then((name) =>
-    // results.push({
-    //   ...elem.dataValues,
-    //   nickName: name.dataValues.userNickName,
-    // })
-    //   )
-    // );
+
     console.log(results);
     res.json(results);
   } catch (err) {
