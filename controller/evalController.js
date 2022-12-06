@@ -26,7 +26,7 @@ exports.likeVideo = async (req, res, next) => {
           videoID: videoID,
         },
       });
-      res.status(201).json({ msg: "좋아요가 취소되었습니다." });
+      res.status(201).json({ msg: "좋아요가 취소되었습니다.", state: false });
     }
 
     if (!checkLiked) {
@@ -39,7 +39,7 @@ exports.likeVideo = async (req, res, next) => {
         userID: userID,
         videoID: videoID,
       });
-      res.status(201).json({ msg: "좋아요가 등록되었습니다." });
+      res.status(201).json({ msg: "좋아요가 등록되었습니다.", state: true });
     }
   } catch (err) {
     console.error(err);

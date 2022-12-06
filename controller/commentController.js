@@ -28,7 +28,6 @@ exports.deleteComment = async (req, res, next) => {
   try {
     // const clientToken = req.cookies.userID;
     // const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
-    console.log("@@@@@", req.body.commentID);
     const commentID = req.body.commentID;
     const userID = req.decoded;
     const authorID = await Comment.findOne({
@@ -61,7 +60,6 @@ exports.getUserComment = async (req, res, next) => {
     const comments = await Comment.findAll({
       where: { userID: req.decoded },
     });
-    console.log(comments);
     res.json({ comments });
   } catch (err) {
     console.error(err);
@@ -88,7 +86,6 @@ exports.getVideoComment = async (req, res, next) => {
       });
     }
 
-    console.log(results);
     res.json(results);
   } catch (err) {
     console.error(err);

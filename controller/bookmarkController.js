@@ -40,9 +40,6 @@ exports.bookmarkVideo = async (req, res, next) => {
 
 exports.getBookmark = async (req, res, next) => {
   try {
-    // const clientToken = req.cookies.userID;
-    // const decodedID = jwt.verify(clientToken, process.env.JWT_TOKEN);
-
     const userID = req.decoded;
     const userNickName = await User.findOne({
       attributes: ["userNickName"],
@@ -55,8 +52,12 @@ exports.getBookmark = async (req, res, next) => {
       include: Video,
     });
 
-    if (!getBookmark) {
-      res.send({ userNickName, msg: "북마크로 저장된 영상이 없습니다." });
+    if (getBookmark.length === 0) {
+      res.send({
+        userNickName,
+        getBookmark,
+        msg: "북마크로 저장된 영상이 없습니다.",
+      });
     } else {
       res.send({ getBookmark, userNickName });
     }
