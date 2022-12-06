@@ -3,7 +3,7 @@ const db = require("../models");
 // const Op = sequelize.Op;
 const Video = db.Video;
 const Op = db.Sequelize.Op;
-
+const Eval = require("../models/eval");
 // exports.create = (req, res) => {
 //   if (!req.body) {
 //     res.status(400).send({
@@ -45,6 +45,29 @@ exports.findAll = (req, res) => {
       });
     });
 };
+exports.findOne = (req, res) => {
+  // fs
+  const userID = req.decoded;
+  let evalID = null;
+  Eval.findOne({
+    where: { userID: userID },
+  }).then((data) => {
+    data && (evalID = data.dataValues.evalID);
+  });
+
+  Video.findOne({ where: { videoID: req.query.videoID } })
+    .then((data) => {
+      evalID
+        ? res.send({ data, recommend: true })
+        : res.send({ data, recommend: false });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "video 전체 검색 실패.",
+      });
+    });
+};
+
 exports.findSome = (req, res) => {
   // fs
   Video.findAll()

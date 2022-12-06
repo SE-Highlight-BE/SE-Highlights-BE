@@ -8,5 +8,6 @@ const auth = require("../middleware/auth");
 router.get("/", auth, videoController.findAll);
 router.get("/search", auth, videoController.findAllTitle);
 router.get("/random", auth, videoController.findSome);
+router.get("/one", auth, videoController.findOne);
 
 module.exports = router;
