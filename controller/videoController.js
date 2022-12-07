@@ -4,33 +4,30 @@ const db = require("../models");
 const Video = db.Video;
 const Op = db.Sequelize.Op;
 const Eval = require("../models/eval");
-// exports.create = (req, res) => {
-//   if (!req.body) {
-//     res.status(400).send({
-//       message: "Content can not be empty!",
-//     });
-//     return;
-//   }
-//   const video = {
-//     videoID: req.body.videoID,
-//     videoTitle: req.body.videoTitle,
-//     videoDate: req.body.videoDate,
-//     videoLink: req.body.videoLink,
-//     videoRecommendRate: req.body.videoRecommendRate,
-//     videoThumnail: req.body.videoThumnail,
-//   };
+exports.create = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+  const video = {
+    videoTitle: req.body.videoTitle,
+    videoDate: req.body.videoDate,
+    videoLink: req.body.videoLink,
+  };
 
-//   Video.create(video)
-//     .then((data) => {
-//       res.send(data);
-//     })
-//     .catch((err) => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while creating the Tutorial.",
-//       });
-//     });
-// };
+  Video.create(video)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Tutorial.",
+      });
+    });
+};
 
 // 전체 비디오 검색
 exports.findAll = (req, res) => {
