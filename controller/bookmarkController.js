@@ -66,3 +66,17 @@ exports.getBookmark = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.stateBookmark = async (req, res, next) => {
+  try {
+    const userID = req.decoded;
+    const videoID = req.query.videoID;
+    const stateMark = await Bookmark.findOne({
+      where: { userID: userID, videoID: videoID },
+    });
+    res.send({ stateMark });
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+};
