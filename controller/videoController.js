@@ -101,7 +101,7 @@ exports.findAllTitle = (req, res) => {
   Video.findAll({ where: condition })
     .then((data) => {
       if (data.length === 0)
-        res.send({ keyword: title, message: "검색결과 없음" });
+        return res.send({ keyword: title, message: "검색결과 없음" });
       res.send(data);
     })
     .catch((err) => {

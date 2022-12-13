@@ -103,7 +103,7 @@ exports.deleteAccount = async (req, res, next) => {
     const isPwd = await bcrypt.compare(userPwd, user.userPwd);
 
     if (!isPwd) {
-      res.json({ error: "비밀번호가 일치하지 않습니다." });
+      return res.json({ error: "비밀번호가 일치하지 않습니다." });
     }
 
     const deleteUser = await User.destroy({ where: { userID: userID } });
